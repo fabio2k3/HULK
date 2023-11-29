@@ -12,3 +12,17 @@ D:\Fabio_2k3\Escuela\Progamación\Mis Proyectos\Proyectos\HULK\HULK\HULK\obj\Deb
 D:\Fabio_2k3\Escuela\Progamación\Mis Proyectos\Proyectos\HULK\HULK\HULK\obj\Debug\net7.0\HULK.pdb
 D:\Fabio_2k3\Escuela\Progamación\Mis Proyectos\Proyectos\HULK\HULK\HULK\obj\Debug\net7.0\HULK.genruntimeconfig.cache
 D:\Fabio_2k3\Escuela\Progamación\Mis Proyectos\Proyectos\HULK\HULK\HULK\obj\Debug\net7.0\ref\HULK.dll
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\bin\Debug\net7.0\HULK.exe
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\bin\Debug\net7.0\HULK.deps.json
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\bin\Debug\net7.0\HULK.runtimeconfig.json
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\bin\Debug\net7.0\HULK.dll
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\bin\Debug\net7.0\HULK.pdb
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\obj\Debug\net7.0\HULK.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\obj\Debug\net7.0\HULK.AssemblyInfoInputs.cache
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\obj\Debug\net7.0\HULK.AssemblyInfo.cs
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\obj\Debug\net7.0\HULK.csproj.CoreCompileInputs.cache
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\obj\Debug\net7.0\HULK.dll
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\obj\Debug\net7.0\refint\HULK.dll
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\obj\Debug\net7.0\HULK.pdb
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\obj\Debug\net7.0\HULK.genruntimeconfig.cache
+C:\Users\USUARIO\Documents\GitHub\HULK\HULK\obj\Debug\net7.0\ref\HULK.dll

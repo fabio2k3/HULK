@@ -187,10 +187,6 @@ namespace HULK
                         return Token.TokenType.Sin;
                     case "cos":
                         return Token.TokenType.Cos;
-                    case "tan":
-                        return Token.TokenType.Tan;
-                    case "cot":
-                        return Token.TokenType.Cot;
                     case "log":
                         return Token.TokenType.Log;
                     case "print":

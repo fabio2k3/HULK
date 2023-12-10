@@ -56,11 +56,13 @@ namespace HULK
             string funName;
             List<Token> funBody;
             List<string> funParams = new List<string>();
+
+            // Verificar si el token es de tipo ID
             if (tokens[current].type == Token.TokenType.ID)
                 funName = tokens[current].value;
             else
                 throw new SyntaxException("FuncName expected after " + tokens[current - 1] + " in function declaration");
-
+            // Verificar si el token siguiente es "("
             if (tokens[++current].type == Token.TokenType.OpenParenthesis)
             {
                 funParams = GetFunDeclParams();
@@ -68,16 +70,18 @@ namespace HULK
             else
                 throw new SyntaxException("Open Parenthesis expected after " + tokens[current - 1] + " in function declaration");
 
-
+            // Verificar si el siguiente token es "=>"
             if (tokens[++current].type != Token.TokenType.Arrow)
                 throw new SyntaxException("'=>' expected after " + tokens[current - 1] + " in function declaration");
 
             current++;
             funBody = new List<Token>();
+            // Agregar los tokens a la lista de "funBody"
             while (tokens[current].type != Token.TokenType.Semicolon)
             {
                 funBody.Add(tokens[current++]);
             }
+            // Agregar una nueva función 
             UserFunction.AddFunction(new UserFunction(funName, funParams, funBody));
 
         }
@@ -85,7 +89,10 @@ namespace HULK
         private List<string> GetFunDeclParams()
         {
             List<string> varNames = new List<string>();
-            current++;
+            current++; 
+
+            /*hequear los token hasta que sea de tipo ")"
+                mientras no lo sea se van agregando a la lista "varNames" */
             while (tokens[current].type != Token.TokenType.CloseParenthesis)
             {
                 varNames.Add(tokens[current].value);
@@ -102,8 +109,12 @@ namespace HULK
         {
             if (tokens[current].type == Token.TokenType.OpenParenthesis)
             {
-                string coditionResult = SolveParenthesis().Evaluate();
-                List<Token> t1 = new List<Token>();
+                string coditionResult = SolveParenthesis().Evaluate();  // Se resuelve la operación dentro del paréntesis y el valor se almacena en "coditionResult"
+                
+                List<Token> t1 = new List<Token>(); // lista para almacenar la expresión que se evaluará
+
+                /* Si el resultado de la expresión es verdadera se añaden los tokens a una lista
+                  y se verifica si se encuentra la palabra "else" */
                 if (coditionResult.ToLower() == "true")
                 {
                     while (tokens[current].type != Token.TokenType.Else)
@@ -114,7 +125,6 @@ namespace HULK
 
                     current++;
                     return new Parser(t1, context).tree;
-
                 }
                 while (tokens[current].type != Token.TokenType.Else)
                 {
@@ -123,6 +133,8 @@ namespace HULK
 
                 current++;
                 t1.Clear();
+                /* se agregan los tokens restantes a t1. 
+                    Luego, construye y devuelve el árbol de análisis sintáctico a partir de t1 */
                 while (current < tokens.Count)
                 {
                     t1.Add(tokens[current++]);
@@ -135,6 +147,7 @@ namespace HULK
 
         }
 
+        // se encarga del análisis y declaración de variables
         private MyExpression ParseVarDeclaration()
         {
             while (tokens[current].type != Token.TokenType.VarInKeyWord)
@@ -155,6 +168,8 @@ namespace HULK
                     t1.Add(tokens[current++]);
                     if (current == tokens.Count)
                         throw new SyntaxException("Missing 'in' KeyWord on let-in expression");
+
+                    // asignar valores 
                     if (tokens[current].type == Token.TokenType.Comma || tokens[current].type == Token.TokenType.VarInKeyWord)
                     {
                         varValue = new Parser(t1, context).tree;
@@ -170,6 +185,8 @@ namespace HULK
             return new Parser(t2, context).tree;
         }
 
+        /* evaluar expresiones que contengan los operadores
+          "and" y "or" */
         private MyExpression ParseAndOr()
         {
             MyExpression left = Compare();
@@ -195,6 +212,7 @@ namespace HULK
             return left;
         }
 
+        // parte del código encargada de realizar la comparación de expresiones 
         private MyExpression Compare()
         {
             MyExpression left = ParseSum();
@@ -228,6 +246,7 @@ namespace HULK
             return left;
         }
 
+        // realiza el análisis de las expresiones que contengan las operaciones: suma y resta
         private MyExpression ParseSum()
         {
             MyExpression left = Concat();
@@ -245,6 +264,7 @@ namespace HULK
             return left;
         }
 
+        // realiza el análisis sintáctico de una expresión matemática
         private MyExpression Concat()
         {
             MyExpression left = ParseMult();
@@ -260,6 +280,9 @@ namespace HULK
             return left;
         }
 
+
+        /* realiza el análisis de las expresiones que contengan las operaciones 
+            multiplicación, división, resto */
         private MyExpression ParseMult()
         {
             MyExpression left = ParsePow();
@@ -282,6 +305,8 @@ namespace HULK
 
             return left;
         }
+
+        // procesa los tokens de una opeación matematica que contenga la operación de potenciación
         private MyExpression ParsePow()
         {
             MyExpression left = ParseTerm();
@@ -299,6 +324,7 @@ namespace HULK
 
         private MyExpression ParseTerm()
         {
+            // comprobar el tipo actual del token y realiza una acción según el mismo
             switch (tokens[current].type)
             {
                 case Token.TokenType.Number:
@@ -328,12 +354,14 @@ namespace HULK
 
             }
 
+            // comprobar si es una variable
             Variable? v = context.FindVar(tokens[current].value);
             if (v != null)
             {
                 current++;
                 return v.VarTree;
             }
+            // comprobar si es una función
             UserFunction? f = UserFunction.FindFunction(tokens[current].value);
             if (f != null)
             {
@@ -353,10 +381,12 @@ namespace HULK
             throw new SyntaxException("Invalid Expression '" + tokens[current].value + "'");
         }
 
+
+        // obtener todas las expresiones de parámetros entre paréntesis en una lista de tokens 
         private List<MyExpression> GetParams()
         {
-            List<MyExpression> paramExpressions = new List<MyExpression>();
-            List<Token> paramTokens = new List<Token>();
+            List<MyExpression> paramExpressions = new List<MyExpression>(); // almacenar expresiones de los parámetros
+            List<Token> paramTokens = new List<Token>(); // almacenar los tokens de los paámetros
             if (tokens[++current].type == Token.TokenType.OpenParenthesis)
             {
                 int parentCount = 1;
@@ -376,13 +406,15 @@ namespace HULK
                     }
                 }
 
-                paramTokens.Remove(paramTokens.Last());
+                paramTokens.Remove(paramTokens.Last()); 
                 paramExpressions.Add(new Parser(paramTokens, context).tree);
                 current++;
                 return paramExpressions;
             }
             throw new SyntaxException("Missing Parenthesis after function Declaration");
         }
+
+        // resolver expresiones dentro de pararéntesis
         private MyExpression SolveParenthesis()
         {
             List<Token> paramTokens = new List<Token>();
